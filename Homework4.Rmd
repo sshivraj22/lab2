@@ -1,0 +1,84 @@
+---
+title: "Homework #4"
+author: Sundar Shivraj
+date: 02/22/2022
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Choco
+#### Due: 2/23/2022 before 11:59pm. Submit in Canvas (file upload).
+
+In this homework we will use the `choco` data set, you can access the data by loading the package `ggplot2` into your R session by executing the command 
+`library(ggplot2)`. The `mpg` data includes information about fuel economy of popular car models
+for the years 1999 and 2008 as collected by the US Environmental Protection Agency.
+
+
+Most exercises are from the ggplot2 book section 2.2.1. You might find it helpful for working on the homework to read through this section.
+
+Question 1: What is the overall number of chocolate bars rated?
+
+Code: table(choco$Rating)
+Result: 
+1  1.5 1.75    2 2.25  2.5 2.75    3 3.25  3.5 3.75 
+4   10    3   32   14  128  265  349  315  407  224 
+4    5 
+99    2 
+
+4+10+3+32+14+128+265+349+315+407+224+99+2 = 1,852 chocolate bars
+
+Question 2: How does the number of ratings depend on the year? Draw a bar chart of the number of reports.
+
+Code: table(choco$Rating, choco$Review.Date)
+
+Result: 2016 2017
+  1       0    0
+  1.5     0    0
+  1.75    0    0
+  2       1    0
+  2.25    1    0
+  2.5    15    2
+  2.75   37    9
+  3      34    9
+  3.25   41   17
+  3.5    48   27
+  3.75   33   16
+  4       9    1
+  5       0    0
+  
+There were more chocolate bars that were rated in 2016 than there were in 2017. 
+
+Code for Barplot: ggplot(data=choco,aes(x=Review.Date, y=Rating)) +
+geom_bar(stat="identity")
+
+Barplot: 
+
+_____________________________________________________
+
+Question 1: How are ratings distributed? Draw a histogram of ratings and describe it. Don’t forget to mention outliers, if there are any.
+
+Code: ggplot(choco, aes(x = Rating)) + 
+geom_histogram(binwidth=1) +
+ggtitle("binwidth = 1")
+
+Most of the bars were voted a 3 and the least number of bars were rated with a 5. There does not seem to be any distinct outliers besides perhaps the ones rated as a 5 and/or rated as a 1.
+
+Histogram: 
+
+Question 2: Do ratings depend on the cocoa percentage of a chocolate bar?
+
+Code:  ggplot(data = choco, aes(x = Cocoa.Pct, y = Rating)) +
++     geom_point()
+
+Scatterplot: 
+
+No, the ratings do not depend on the cocoa percentage of the chocolate bar.
+
+Question 3: How do ratings compare across different company locations? Focus on the three locations with the most ratings:
+
+Code: choco %>% dplyr::filter(Company.Location %in% c("U.S.A.", "France", "Canada")) %>% ggplot(aes(x = Company.Location,y = Rating)) + geom_col()
+
+Barplot: 
